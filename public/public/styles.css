@@ -1,0 +1,116 @@
+.heading {
+  height: 80px;
+  background-color: #000;
+  color: #fff;
+  margin: 0px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* align horizontal */ }
+  .heading h1 {
+    margin: 0px; }
+
+.question-container {
+  font-size: 40px; }
+
+.timer-container,
+.user-score {
+  position: relative;
+  top: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* align horizontal */ }
+
+.timer,
+.score {
+  border: 1px solid #339966;
+  border-radius: 50%;
+  position: relative;
+  width: 120px;
+  height: 120px;
+  background-color: #339966;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* align horizontal */ }
+
+.time-remaining,
+.user-score {
+  font-size: 32px; }
+
+.seconds {
+  font-size: 18px; }
+
+.score {
+  border: 1px solid #339966;
+  font-size: 32px; }
+
+.submit-container {
+  text-align: center; }
+  .submit-container .submit-button {
+    border-radius: 5%;
+    width: 180px;
+    height: 50px;
+    background-color: #339966;
+    font-size: 24px;
+    color: #fff; }
+    .submit-container .submit-button:hover {
+      background-color: #339966; }
+
+.question-container {
+  margin-top: 20px; }
+
+.question-container .increase-stake {
+  width: 120px;
+  height: 120px;
+  white-space: normal;
+  position: relative;
+  top: 40px;
+  border-radius: 50%;
+  border: 2px solid #cc3300;
+  background-color: #cc3300;
+  color: #fff; }
+  .question-container .increase-stake:focus {
+    outline: 0 !important; }
+  .question-container .increase-stake:active {
+    background-color: #339966 !important; }
+  .question-container .increase-stake:hover {
+    background-color: #339966 !important;
+    color: #fff; }
+
+#double-it {
+  left: 90px; }
+
+#triple-it {
+  left: 90px; }
+
+.options {
+  padding-left: 20px;
+  margin-top: 0px;
+  font-size: 24px;
+  white-space: normal; }
+
+.player-info-form {
+  position: relative;
+  top: 150px;
+  font-size: 32px;
+  font-weight: 900;
+  text-align: center; }
+  .player-info-form .input-name {
+    text-align: center;
+    width: 300px;
+    height: 90px;
+    border-radius: 2%; }
+  .player-info-form .submit-name-button {
+    align-content: center;
+    background-color: #339966;
+    color: #fff;
+    font-size: 20px; }
+    .player-info-form .submit-name-button:hover, .player-info-form .submit-name-button:focus {
+      background-color: #339926; }
+
+.input-name:focus::-webkit-input-placeholder {
+  color: transparent; }
