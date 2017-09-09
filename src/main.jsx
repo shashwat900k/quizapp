@@ -1,23 +1,14 @@
 let jQuery = require('jquery');
 import $ from "jquery";
 import './../node_modules/bootstrap/dist/css/bootstrap.css';
-import './playernames.js'
 require("babel-core/register");
 require("babel-polyfill");
 require("./main.scss");
 let React = require('react');
 let ReactDOM = require('react-dom');
-let mysql = require('mysql');
-let jsonQuestions=null,replicaOfJSONQuestions,question,flag=1;
+let fecth = require("node-fetch");
+let jsonQuestions=null,replicaOfJSONQuestions,question,flag=1,leaderBoardScores=[];
 jsonQuestions = require('./question.json');
-
-let pool =  mysql.createPool({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'tutorial'
-  });
-
 
 function swap(index1,index2){
   let temp;
@@ -35,10 +26,21 @@ function selectAndRemoveQuestion(){
   return questionAndOptions;
 }
 
+function getTopTenScores(){
+  fetch('/something', {
+    method: 'GET',
+  }).then(function(greetings){
+    return greetings.text();
+  }).then(data =>{
+    leaderBoardScores = data;
+  });
+}
+
+
+
 let checkLoading = $.when(jsonQuestions);
 checkLoading.done(function(){
   replicaOfJSONQuestions = jQuery.extend(true, [] , jsonQuestions);
-  //console.log(pool.host);
   class PlayernInfoForm extends React.Component{
     constructor (props) {
       super(props);
@@ -77,6 +79,14 @@ checkLoading.done(function(){
     }
   }
 
+  const ScoreCard = (props) => {
+    return(
+      <div className="score">
+         {props.userscore}
+       </div>
+    )
+  }
+
   class Timer extends React.Component{
     constructor (props) {
       super(props);
@@ -94,21 +104,23 @@ checkLoading.done(function(){
         this.setState({
           timeRemaining: this.props.start - new Date()})
         if(this.state.timeRemaining<0){
-          clearInterval(this.timer);
           this.setState({
             timeRemaining: 0});
         }
       }
     }
 
+    componentWillUnmount = () =>{
+      console.log("hi");
+      clearInterval(this.timer);
+    }
+
     render() {
       var elapsed = Math.round(this.state.timeRemaining / 100);
       var seconds = (elapsed / 10).toFixed(1);
       return(
-        <div className="col-xs-3 timer-container">
         <div className="timer">
         <p className="time-remaining"><b>{seconds} <span className="seconds">S</span></b></p>
-        </div>
         </div>
       );
     }
@@ -129,6 +141,23 @@ checkLoading.done(function(){
       </div>
       </div>
     );
+  }
+
+  const ShowLeaderBoard = () =>{
+    leaderBoardScores = JSON.parse(leaderBoardScores);
+    let contentToDisplay = [];
+    contentToDisplay.push(<div className="header name-in-table">Name</div>)
+    contentToDisplay.push(<div className="score-in-table header">Score</div>);
+    for(let i=0;i<leaderBoardScores.length;i++){
+      //console.log(leaderBoardScores[i].username,leaderBoardScores[i].userscore);
+      contentToDisplay.push(<div className="name-in-table">{leaderBoardScores[i].username}</div>)
+      contentToDisplay.push(<div className="score-in-table">{leaderBoardScores[i].userscore}</div>);
+    }
+     return(
+     <div className="col-xs-3 leaderboard">
+      {contentToDisplay}
+      </div>
+    )
   }
 
   class Question extends React.Component{
@@ -217,27 +246,36 @@ checkLoading.done(function(){
         tripleIt: 0,
         userScore: 0,
         currentQuestion: selectAndRemoveQuestion(),
-        timeOnClock: Date.now() + 1200000,
-        timeRemainingAtCompletion: 0,
+        timeOnClock: Date.now() + 120000,
+        timeRemainingAtCompletion: null,
         playerName: null
       };
     }
 
     componentDidMount = () =>{
       this.checkCompletion = setInterval(this.checkTestCompletion,100);
+      leaderBoardScores = getTopTenScores();
+
     }
 
     postUserNameAndScore = () =>{
       fetch('/', {
-      method: 'POST',
-      data: {
-        name: this.state.playerName,
-        score: this.state.userScore
-      }});
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        mode: 'cors',
+        cache: 'default',
+        body: JSON.stringify({
+          name: this.state.playerName,
+          score: this.state.userScore
+        })
+      });
     }
 
     checkTestCompletion = () =>{
-      if(this.state.timeOnClock<=Date.now() && this.state.timeOnClock!=-null){
+      if(this.state.timeOnClock<=Date.now() || this.state.timeRemainingAtCompletion!=null){
         this.setState({
           timeOnClock: 0,
           isTestCompleted: 1,
@@ -265,15 +303,13 @@ checkLoading.done(function(){
         }));
       }
       else{
-        this.setState(prevState =>({
-          isTestCompleted: 1,
-          userScore: prevState.userScore+correct,
-          doubleIt: 0,
-          tripleIt: 0,
-          timeRemainingAtCompletion: prevState.timeOnClock-new Date()
-        }));
-        this.postUserNameAndScore();
-        clearInterval(this.checkCompletion);
+          this.setState(prevState =>({
+            isTestCompleted: 1,
+            userScore: prevState.userScore+correct,
+            doubleIt: 0,
+            tripleIt: 0,
+            timeRemainingAtCompletion: prevState.timeOnClock-new Date()
+          }));
       }
     }
 
@@ -297,25 +333,28 @@ checkLoading.done(function(){
     }
 
     render () {
-      console.log(this.state.playerName);
-      console.log(pool.host);
       if(this.state.playerName==null){
         return(
           <PlayernInfoForm setName={this.setPlayerName} />
         )}
       else if(this.state.isTestCompleted==0){
         return(
-          <div className="col-xs-12">
-          <Timer start={this.state.timeOnClock} />
+          <div className="main">
+          <div className="col-xs-12 main-container">
+          <div className="col-xs-3 time-score-container">
+          <div className="sub-time-container">
+          <Timer start={this.state.timeOnClock}/>
+          </div>
+          <div className="sub-score-container">
+          <ScoreCard userscore={this.state.userScore} />
+          </div>
+          </div>
           <div className="question-container col-xs-6">
           <Question currentQuestion={this.state.currentQuestion}
           checkAnswer = {this.checkAnswerAndCalculateScore}
           increaseStake = {this.increaseStake} />
           </div>
-          <div className="user-score col-xs-3">
-          <div className="score">
-          {this.state.userScore}
-          </div>
+          <ShowLeaderBoard />
           </div>
           </div>
         );

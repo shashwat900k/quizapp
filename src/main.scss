@@ -21,21 +21,20 @@
   font-size: 40px;
 }
 
-.timer-container,
-.user-score{
-  position: relative;
-  top: 100px;
+.sub-time-container,
+.sub-score-container{
   @include vertical-align;
 }
 
 .timer,
 .score{
-  border: 1px solid #339966;
-  border-radius: 50%;
   position: relative;
-  width: 120px;
-  height: 120px;
+  top: 50px;
+  border: 1px solid #339966;
   background-color: #339966;
+  position: relative;
+  width: 180px;
+  height: 90px;
   color: #fff;
   @include vertical-align;
 }
@@ -43,6 +42,7 @@
 .time-remaining,
 .user-score{
   font-size: 32px;
+  margin: 0px;
 }
 
 .seconds{
@@ -50,8 +50,11 @@
 }
 
 .score{
-  border: 1px solid #339966;
+  width:120px;
+  height: 120px;
+  border-radius: 50%;
   font-size: 32px;
+  top: 140px;
 }
 
 .submit-container{
@@ -139,5 +142,43 @@
   &:focus{
     &::-webkit-input-placeholder { color:transparent; }
   }
+}
+
+.main{
+  height: 100%;
+  .main-container{
+    padding: 0px;
+    height: 100%;
+  }
+}
+
+.leaderboard{
+  background-color: #3F1A46;
+  height: 89vh;
+  color: #fff;
+}
+
+.name-in-table,
+.score-in-table{
+  display: inline-block;
+  font-size: 20px;
+  padding: 0px 20px 0px 20px;
+  height: auto;
+  word-wrap: break-word;
+}
+
+.name-in-table{
+  width: 65%;
+  height: 7.5vh;
+}
+
+.header{
+  padding-top: 5px;
+  font-size: 28px;
+}
+
+.score-in-table{
+  width: 35%;
+  height: 7.5vh;
 }
 

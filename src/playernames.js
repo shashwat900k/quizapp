@@ -1,4 +1,20 @@
-const mysql = require('mysql');
+let path = require("path");
+let express= require('express');
+let DIST_DIR = path.join(__dirname, "../public"),
+    PORT = 3000,
+    app = express();
+
+//Serving the files on the dist folder
+app.use(express.static(DIST_DIR));
+
+//Send index.html when the user access the web
+app.get("*", function (req, res) {
+  res.sendFile(path.join(DIST_DIR, "index.html"));
+});
+
+app.listen(PORT);
+
+/*const mysql = require('mysql');
 const express = require('express');
 const app = express();
 
@@ -9,6 +25,20 @@ let connection = mysql.createConnection({
   password: 'secret',
   database: 'my_db',
 });
+
+const port = 3000
+
+app.get('/', (request, response) => {
+  response.send('Hello from Express!')
+})
+
+app.listen(port, (err) => {
+  if (err) {
+    return console.log('something bad happened', err)
+  }
+
+  console.log('server is listening on ${port}')
+})
 
 app.post('/', function(req, res, next) {
   pool.getConnection(function(err, connection) {
@@ -29,4 +59,4 @@ app.post('/', function(req, res, next) {
       }
     });
   });
-});
+});*/
