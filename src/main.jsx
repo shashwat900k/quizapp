@@ -6,7 +6,6 @@ require("babel-polyfill");
 require("./main.scss");
 let React = require('react');
 let ReactDOM = require('react-dom');
-let fecth = require("node-fetch");
 let jsonQuestions=null,replicaOfJSONQuestions,question,flag=1,leaderBoardScores=[];
 jsonQuestions = require('./question.json');
 
@@ -22,8 +21,7 @@ function selectAndRemoveQuestion(){
   let randomQuestion = replicaOfJSONQuestions[randomQuestionIndex];
   swap(randomQuestionIndex,replicaOfJSONQuestions.length-1);
   replicaOfJSONQuestions.pop();
-  let questionAndOptions = Object.values(randomQuestion);
-  return questionAndOptions;
+  return Object.values(randomQuestion);
 }
 
 function getTopTenScores(){
@@ -36,11 +34,10 @@ function getTopTenScores(){
   });
 }
 
-
-
 let checkLoading = $.when(jsonQuestions);
 checkLoading.done(function(){
   replicaOfJSONQuestions = jQuery.extend(true, [] , jsonQuestions);
+
   class PlayernInfoForm extends React.Component{
     constructor (props) {
       super(props);
@@ -111,7 +108,6 @@ checkLoading.done(function(){
     }
 
     componentWillUnmount = () =>{
-      console.log("hi");
       clearInterval(this.timer);
     }
 
@@ -146,12 +142,11 @@ checkLoading.done(function(){
   const ShowLeaderBoard = () =>{
     leaderBoardScores = JSON.parse(leaderBoardScores);
     let contentToDisplay = [];
-    contentToDisplay.push(<div className="header name-in-table">Name</div>)
-    contentToDisplay.push(<div className="score-in-table header">Score</div>);
+    contentToDisplay.push(<div className="header name-in-div">Name</div>)
+    contentToDisplay.push(<div className="score-in-div header">Score</div>);
     for(let i=0;i<leaderBoardScores.length;i++){
-      //console.log(leaderBoardScores[i].username,leaderBoardScores[i].userscore);
-      contentToDisplay.push(<div className="name-in-table">{leaderBoardScores[i].username}</div>)
-      contentToDisplay.push(<div className="score-in-table">{leaderBoardScores[i].userscore}</div>);
+      contentToDisplay.push(<div className="name-in-div">{leaderBoardScores[i].username}</div>)
+      contentToDisplay.push(<div className="score-in-div">{leaderBoardScores[i].userscore}</div>);
     }
      return(
      <div className="col-xs-3 leaderboard">
@@ -246,7 +241,7 @@ checkLoading.done(function(){
         tripleIt: 0,
         userScore: 0,
         currentQuestion: selectAndRemoveQuestion(),
-        timeOnClock: Date.now() + 120000,
+        timeOnClock: Date.now() + 12000000000,
         timeRemainingAtCompletion: null,
         playerName: null
       };

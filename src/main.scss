@@ -6,7 +6,7 @@
 }
 
 .heading{
-  height: 80px;
+  height: 11vh;
   background-color: #000;
   color: #fff;
   margin: 0px;
@@ -158,8 +158,8 @@
   color: #fff;
 }
 
-.name-in-table,
-.score-in-table{
+.name-in-div,
+.score-in-div{
   display: inline-block;
   font-size: 20px;
   padding: 0px 20px 0px 20px;
@@ -167,7 +167,7 @@
   word-wrap: break-word;
 }
 
-.name-in-table{
+.name-in-div{
   width: 65%;
   height: 7.5vh;
 }
@@ -177,7 +177,7 @@
   font-size: 28px;
 }
 
-.score-in-table{
+.score-in-div{
   width: 35%;
   height: 7.5vh;
 }
