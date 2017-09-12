@@ -1,18 +1,3 @@
-/*const express = require('express')
-const app = express()
-const port = 3000
-
-app.get('/', (request, response) => {
-  response.send('Hello from Express!')
-})
-
-app.listen(port, (err) => {
-  if (err) {
-    return console.log('something bad happened', err)
-  }
-
-  console.log(`server is listening on ${port}`)
-})*/
 let bodyParser = require("body-parser");
 const path = require("path");
 const express= require('express');
@@ -29,7 +14,6 @@ let connection = mysql.createConnection({
 });
 
 
-console.log("hey you");
 app.use(bodyParser.urlencoded(
   {extended: true}));
 app.use(bodyParser.json());
@@ -38,39 +22,24 @@ app.use(express.static(DIST_DIR));
 function getTopTen(callback){
   connection.query("SELECT * FROM tbl_userscore ORDER BY userScore DESC LIMIT 10",function(err,rows){
     if(!err){
-      console.log("hi");
-      console.log(rows);
       return callback(null,rows);
     }
     else
     {
       return callback(err,null);
-      console.log("hey");
     }
   });
 }
 
-app.get('/something',function(req,res){
-  console.log("heyyyyyyyyyyyyy");
+app.get('/getTop10',function(req,res){
   getTopTen(function(err,rows){
     if(!err){
       res.json(rows);
-      console.log("hi"+res);
     }
     else
       console.log(err);
     });
   });
-  //res.json("hello world!");
-  /*let obj = {greetings: "hello world!", code: "30000"};
-  //res.set('body',obj);
-  res.send({greetings: "hello world!", code: "30000"});
-  //console.log("fdghjhgfds");
-  //getTopTen();
-});*/
-
-
-
 
 app.post('/', function(req, res) {
   connection.query(`CREATE TABLE IF NOT EXISTS tbl_userscore
