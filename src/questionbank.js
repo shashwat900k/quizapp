@@ -1,4 +1,4 @@
-[
+let jsonQuestions = [
 	{
 		"question": "Who is the Prime Minister of India?",
 		"option1": "A",
@@ -62,3 +62,4 @@
 
 	}
 ]
+export default jsonQuestions;

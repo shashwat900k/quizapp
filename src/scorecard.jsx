@@ -1,7 +1,7 @@
-let React = require('react');
+import React from 'react';
 const ScoreCard = (props) => {
   return(
-    <div className="score">
+    <div className = "score">
     {props.userscore}
     </div>
   )

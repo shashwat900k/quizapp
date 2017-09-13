@@ -1,4 +1,4 @@
-let React = require('react');
+import React from "react";
 export default class Timer extends React.Component{
   constructor (props) {
     super(props);
@@ -13,15 +13,20 @@ export default class Timer extends React.Component{
   }
 
   tick = () =>{
-    if(this.props.start!=0){
+    if(this.props.start != 0){
       this.setState(prevState =>({
         timeRemaining: this.props.start - prevState.counter,
-        counter: prevState.counter+100
+        counter: prevState.counter + 100
       }));
-      if(this.state.timeRemaining<0){
+      if(this.state.timeRemaining <= 0){
         this.setState({
           timeRemaining: 0});
+        this.props.actionOnTimeOver();
       }
+    }
+
+    if(this.props.isTestCompleted){
+      clearInterval(this.timer);
     }
   }
 
@@ -33,8 +38,9 @@ export default class Timer extends React.Component{
     var elapsed = Math.round(this.state.timeRemaining / 100);
     var seconds = (elapsed / 10).toFixed(1);
     return(
-      <div className="timer">
-      <p className="time-remaining"><b>{seconds} <span className="seconds">S</span></b></p>
+      <div className = "timer">
+      <p className = "time-remaining"><b>
+      {seconds} <span className="seconds">S</span></b></p>
       </div>
     );
   }
