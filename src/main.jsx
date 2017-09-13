@@ -13,20 +13,20 @@ import ScoreCard from "./scorecard.jsx";
 import ShowLeaderBoard from "./showleaderboard.jsx";
 import {selectAndRemoveQuestion} from "./globalutilfunctions.js";
 
-let questionsLength = 0 ,question ,leaderBoardScores = [] ,posted = 0;
+let questionsLength = 0, question, leaderBoardScores = [], posted = 0;
 
-function getTopTenScores(){
+function getTopTenScores() {
   fetch("/getTop10", {
     method: "GET",
-  }).then( function(greetings) {
+  }).then(function (greetings) {
     return greetings.text();
-  }).then( data => {
+  }).then(data => {
     leaderBoardScores = data;
   });
 }
 
 class App extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props);
     this.state = {
       isTestCompleted: 0, //required
@@ -40,12 +40,12 @@ class App extends React.Component {
     };
   }
 
-  componentWillMount = () =>{
-    this.checkCompletion = setInterval(this.checkTestCompletion,100);
+  componentWillMount() {
+    this.checkCompletion = setInterval(this.checkTestCompletion, 100);
     leaderBoardScores = getTopTenScores();
   }
 
-  postUserNameAndScore = () =>{
+  postUserNameAndScore = () => {
     fetch("/", {
       method: "POST",
       headers: {
@@ -59,18 +59,18 @@ class App extends React.Component {
         score: this.state.userScore
       })
     });
-  }
+  };
 
   checkTestCompletion = () => {
-    if(this.state.isTestCompleted != 0){
-      if(posted == 0){
+    if (this.state.isTestCompleted) {
+      if (!posted) {
         this.postUserNameAndScore();
         posted = 1;
       }
       clearInterval(this.checkCompletion);
     }
 
-    if(jsonQuestions != null && this.state.questionsLoaded == 0){
+    if (jsonQuestions && !(this.state.questionsLoaded)) {
       questionsLength = jsonQuestions.length;
       this.setState({
         questionsLoaded: 1,
@@ -78,18 +78,18 @@ class App extends React.Component {
       });
     }
 
-  }
+  };
 
   checkAnswerAndCalculateScore = (scoreValue) => {
-    if(jsonQuestions.length != 0){
+    if (jsonQuestions.length) {
       this.setState(prevState => ({
         userScore: prevState.userScore + scoreValue,
-        currentQuestion: selectAndRemoveQuestion( jsonQuestions),
+        currentQuestion: selectAndRemoveQuestion(jsonQuestions),
         attempted: prevState.attempted + 1
       }));
     }
-    else{
-      let temp = (Date.now() - this.state.timeOfBeginning)/1000;
+    else {
+      let temp = (Date.now() - this.state.timeOfBeginning) / 1000;
       this.setState(prevState => ({
         isTestCompleted: 1,
         userScore: prevState.userScore + scoreValue,
@@ -97,60 +97,64 @@ class App extends React.Component {
         attempted: prevState.attempted + 1
       }));
     }
-  }
+  };
 
-  actionOnTimeOver = () =>{
+  actionOnTimeOver = () => {
     this.setState({
       isTestCompleted: 1,
       timeRemainingAtCompletion: 0
     })
-  }
+  };
 
-  setPlayerName = (name) =>{
+  setPlayerName = (name) => {
     this.setState({
       playerName: name,
       timeOfBeginning: Date.now()
     });
-  }
+  };
 
-  render () {
-    if( this.state.playerName == null) {
-      return(
-        <PlayernInfoForm setName = { this.setPlayerName} />
-      )}
+  render() {
+    if (!(this.state.playerName)) {
+      return <PlayernInfoForm setName={this.setPlayerName}/>
 
-    else if(this.state.isTestCompleted == 0) {
-      return(
-        <div className = "main">
-        <div className = "col-xs-12 main-container">
-        <div className = "col-xs-3 time-score-container">
-        <div className = "sub-time-container">
-        <Timer start={ 30000}
-        actionOnTimeOver = {this.actionOnTimeOver}
-        isTestCompleted = {this.state.isTestCompleted}/>
-        </div>
-        <div className = "sub-score-container">
-        <ScoreCard userscore = { this.state.userScore} />
-        </div>
-        </div>
-        <div className = "question-container col-xs-6">
-        <Question currentQuestion = { this.state.currentQuestion}
-        checkAnswer = { this.checkAnswerAndCalculateScore} />
-        </div>
-        <ShowLeaderBoard leaderBoardScores = { leaderBoardScores} />
-        </div>
+    }
+
+    else if (!(this.state.isTestCompleted)) {
+      return (
+        <div className="main">
+          <div className="col-xs-12 main-container">
+            <div className="col-xs-3 time-score-container">
+              <div className="sub-time-container">
+                <Timer start={300000}
+                       actionOnTimeOver={this.actionOnTimeOver}
+                       isTestCompleted={this.state.isTestCompleted}/>
+              </div>
+              <div className="sub-score-container">
+                <ScoreCard userscore={this.state.userScore}/>
+              </div>
+            </div>
+            <div className="question-container col-xs-6">
+              <Question currentQuestion={this.state.currentQuestion}
+                        checkAnswer={this.checkAnswerAndCalculateScore}/>
+            </div>
+            <ShowLeaderBoard leaderBoardScores={leaderBoardScores}/>
+          </div>
         </div>
       );
     }
 
-    else{
-      return(
-        <CompletionMessage score = { this.state.userScore} timeRemaining = { this.state.timeRemainingAtCompletion} username = { this.state.playerName}
-        attempted = {this.state.attempted} questionsLength = {questionsLength}/>
+    else {
+      return (
+        <CompletionMessage
+          score={this.state.userScore}
+          timeRemaining={this.state.timeRemainingAtCompletion}
+          username={this.state.playerName}
+          attempted={this.state.attempted}
+          questionsLength={questionsLength}
+        />
       );
     }
-
   }
 }
-ReactDOM.render(<App />, document.getElementById("app"));
 
+ReactDOM.render(<App/>, document.getElementById("app"));

@@ -1,5 +1,5 @@
-let calculateScore = (answerSelected,actualAnswer,isDoubleIt,isTripleIt) => {
-  let isCorrect = ((answerSelected == actualAnswer)? 1: 0),scoreValue=0;
+export function calculateScore(answerSelected,actualAnswer,isDoubleIt,isTripleIt) {
+  let isCorrect = ((answerSelected === actualAnswer)? 1: 0),scoreValue=0;
   let willTheValueBeDoubledOrTripledOrNone = isDoubleIt * 2
     + isTripleIt * 3;
 
@@ -18,13 +18,10 @@ let calculateScore = (answerSelected,actualAnswer,isDoubleIt,isTripleIt) => {
   return scoreValue;
 }
 
-let selectAndRemoveQuestion = (jsonQuestions) => {
+export function selectAndRemoveQuestion(jsonQuestions) {
   let randomQuestionIndex = Math.floor( Math.random() * jsonQuestions.length );
   let randomQuestion = jsonQuestions[randomQuestionIndex];
 
   jsonQuestions.splice( randomQuestionIndex, 1);
   return Object.values( randomQuestion);
 }
-
-
-export {calculateScore,selectAndRemoveQuestion};
