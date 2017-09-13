@@ -49,7 +49,8 @@ export default class Question extends React.Component{
     let options = [];
     for(let i=1;i<this.props.currentQuestion.length-1;i++){
       let optionDisplay = this.props.currentQuestion[i];
-      options.push(<span className="radio-buttons"><input type="radio" display="block" value={this.props.currentQuestion[i]} checked = {this.props.currentQuestion[i]==this.state.selectedOption} onChange={this.handleChange}/></span>);
+      options.push(<span className="radio-buttons"><input type="radio" display="block" value={this.props.currentQuestion[i]}
+      checked = {this.props.currentQuestion[i]==this.state.selectedOption} onChange={this.handleChange}/></span>);
       options.push(<span  className="options">{this.props.currentQuestion[i]}</span>);
       options.push(<p></p>);
     }

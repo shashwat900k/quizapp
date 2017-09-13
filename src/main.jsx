@@ -1,19 +1,18 @@
-let jQuery = require('jquery');
-import $ from "jquery";
-import './../node_modules/bootstrap/dist/css/bootstrap.css';
 
-require("babel-core/register");
-require("babel-polyfill");
-require("./main.scss");
-
-let React = require('react');
-let ReactDOM = require('react-dom');
-let jsonQuestions=null,questionsLength=0,question,flag=1,leaderBoardScores=[],posted=0;
+import "./../node_modules/bootstrap/dist/css/bootstrap.css";
+import "babel-core/register";
+import "babel-polyfill";
+import "./main.scss";
+import React from "react";
+import ReactDOM from "react-dom";
 
 import Question from "./question.jsx";
 import Timer from "./timer.jsx";
 import PlayernInfoForm from "./playerinfo.jsx";
 import ScoreCard from "./scorecard.jsx";
+import ShowLeaderBoard from "./showleaderboard.jsx";
+
+let jsonQuestions=null,questionsLength=0,question,flag=1,leaderBoardScores=[],posted=0;
 
 function selectAndRemoveQuestion(){
   let randomQuestionIndex = Math.floor(Math.random()*jsonQuestions.length);
@@ -24,30 +23,13 @@ function selectAndRemoveQuestion(){
 }
 
 function getTopTenScores(){
-  fetch('/getTop10', {
-    method: 'GET',
+  fetch("/getTop10", {
+    method: "GET",
   }).then(function(greetings){
     return greetings.text();
   }).then(data =>{
     leaderBoardScores = data;
   });
-}
-
-const ShowLeaderBoard = () =>{
-  if(typeof leaderBoardScores!=="object")
-    leaderBoardScores = JSON.parse(leaderBoardScores);
-  let contentToDisplay = [];
-  contentToDisplay.push(<div className="header name-in-div">Name</div>)
-  contentToDisplay.push(<div className="score-in-div header">Score</div>);
-  for(let i=0;i<leaderBoardScores.length;i++){
-    contentToDisplay.push(<div className="name-in-div">{leaderBoardScores[i].username}</div>)
-    contentToDisplay.push(<div className="score-in-div">{leaderBoardScores[i].userscore}</div>);
-  }
-  return(
-    <div className="col-xs-3 leaderboard">
-    {contentToDisplay}
-    </div>
-  );
 }
 
 const CompletionMessage = (props) =>{
@@ -72,34 +54,34 @@ class App extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
-      isTestCompleted: 0,
+      isTestCompleted: 0, //required
       doubleIt: 0,
       tripleIt: 0,
-      userScore: 0,
-      currentQuestion: 0,
+      userScore: 0,   //required
+      currentQuestion: 0, //required
       timeOnClock: Date.now() + 120000000000000000,  //to represent a very large time
-      timeRemainingAtCompletion: null,
-      playerName: null,
-      questionsLoaded: 0,
-      timeOfBeginning: 0
+      timeRemainingAtCompletion: null, //required
+      playerName: null, // required
+      questionsLoaded: 0, // required
+      timeOfBeginning: 0 // required
     };
   }
 
   componentWillMount = () =>{
     this.checkCompletion = setInterval(this.checkTestCompletion,100);
     leaderBoardScores = getTopTenScores();
-    jsonQuestions = require('./question.json');
+    jsonQuestions = require("./question.json");
   }
 
   postUserNameAndScore = () =>{
-    fetch('/', {
-      method: 'POST',
+    fetch("/", {
+      method: "POST",
       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
+        "Accept": "application/json",
+        "Content-Type": "application/json",
       },
-      mode: 'cors',
-      cache: 'default',
+      mode: "cors",
+      cache: "default",
       body: JSON.stringify({
         name: this.state.playerName,
         score: this.state.userScore
@@ -161,7 +143,7 @@ class App extends React.Component {
 
   increaseStake = (buttonClicked) =>{
     let double=0,triple=0;
-    if(buttonClicked=='double-it')
+    if(buttonClicked=="double-it")
       double = 1;
     else
       triple=1;
@@ -201,7 +183,7 @@ class App extends React.Component {
         checkAnswer = {this.checkAnswerAndCalculateScore}
         increaseStake = {this.increaseStake} />
         </div>
-        <ShowLeaderBoard />
+        <ShowLeaderBoard leaderBoardScores = {leaderBoardScores} />
         </div>
         </div>
       );
