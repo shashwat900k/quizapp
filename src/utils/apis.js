@@ -1,3 +1,4 @@
+// calls app.get in server.js to get top 10 scores SQL DB
 export function getTopTenScores() {
   return fetch("/getTopTen", {
     method: "GET",
@@ -6,6 +7,7 @@ export function getTopTenScores() {
   })
 }
 
+// calls app.post in server.js to store user name and score in SQL DB
 export function postUserNameAndScore(objectState){
   fetch("/postNameAndScore", {
     method: "POST",

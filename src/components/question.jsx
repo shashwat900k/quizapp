@@ -5,14 +5,15 @@ class Question extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedOption: 0,
-      doubleScore: "#cc3300",
-      tripleScore: "#cc3300",
-      doubleIt: 0,
-      tripleIt: 0
+      selectedOption: 0, //stores option selected at any point
+      doubleScore: "#cc3300", // color of the button on clicking double-it
+      tripleScore: "#cc3300", // color of the button on clicking triple-it
+      doubleIt: 0, // if double-it button clicked or not
+      tripleIt: 0 // if triple-it button clicked or not
     }
   }
 
+  // on clicking double-it or triple it, set their state accordingly
   increaseStake = (buttonClicked) => {
     let double = 0, triple = 0;
 
@@ -29,7 +30,8 @@ class Question extends React.Component {
   };
 
   calculateScoreForCurrentQuestion = () => {
-
+    // calls calculatescore in globalUtilFunctions.js with passed args and
+    // stores returned value
     let scoreValue = calculateScore(
       this.state.selectedOption,
       this.props.currentQuestion[5],
@@ -42,12 +44,14 @@ class Question extends React.Component {
       tripleIt: 0
     });
 
+    //the returned value from calculate store is passed to below function in main.jsx
+    //which adds the value in state.userscore
     this.props.checkAnswer(scoreValue);
   };
 
 
   handleChange = (changeEvent) => {
-
+    //whenever a radio-box is clicked change the state of option selected
     this.setState({
       selectedOption: changeEvent.target.value
     });
@@ -55,20 +59,21 @@ class Question extends React.Component {
   }
 
   handleSubmit = (event) => {
-
+    //prevent from page to refresh and set states to default value
     event.preventDefault();
     this.setState({
       selectedOption: 0,
       tripleScore: "#cc3300",
       doubleScore: "#cc3300"
     })
-
+    //calculate score to be awarded for given question on submit
     this.calculateScoreForCurrentQuestion();
 
   }
 
   handleDoubleTriple = (event) => {
-
+    //on clicking doubleIt or triple set the color of clicked bttn to green and
+    // un-clicked to red by changing there states
     event.preventDefault();
     if (event.currentTarget.id === "double-it") {
       this.setState({
@@ -82,15 +87,18 @@ class Question extends React.Component {
         doubleScore: "#cc3300"
       });
     }
-
+    //and also set state to indicate which one(double or triple) is clicked
     this.increaseStake(event.currentTarget.id);
 
   }
 
   render() {
     let optionSelected = this.state.selectedOption;
+    //filters out question and answer from array and only store options in it
     let options = this.props.currentQuestion.filter((value, index) => index >= 1 && index <= 4);
 
+    //Iterate through each option and style it as radio button and
+    // push in the array
     options = options.map((valueAtIndex, i) => {
         const checked = optionSelected === valueAtIndex;
         return (
@@ -112,6 +120,7 @@ class Question extends React.Component {
           {options}
         </div>
         <div className="submit-container">
+          {/*If no option selected do not enable submit button */}
           <button className="btn btn-default submit-button" type="submit"
                   onClick={this.handleSubmit} disabled={!(optionSelected)}>
             Save Answer
@@ -119,6 +128,8 @@ class Question extends React.Component {
         </div>
         <div className="col-xs-12">
           <div className="col-xs-6">
+            {/* Sets color to green if double or triple it clicked by calling handleDoubleTriple
+             and changing the states accordingly and setting bg-color according to states*/}
             <button className="btn btn-default col-xs-6 increase-stake" id="double-it"
                     style={{backgroundColor: this.state.doubleScore}} type="submit"
                     onClick={this.handleDoubleTriple}>

@@ -10,23 +10,28 @@ class Timer extends React.Component {
   }
 
   componentDidMount() {
+    //tick function invoked every 0.1s
     this.timer = setInterval(this.tick, 100);
   }
 
   tick = () => {
+    // if test begun
     if (this.props.start) {
+      // decrements timer by 0.1 in every 0.1s
       this.setState(prevState => ({
         timeRemaining: this.props.start - prevState.counter,
         counter: prevState.counter + 100
       }));
-
+      // when timer value <0, finish the test by invoking actionOnTieOver
+      // in main.jsx
       if (this.state.timeRemaining <= 0) {
         this.setState({
           timeRemaining: 0
         }, () => this.props.actionOnTimeOver());
       }
     }
-
+    //when test completed no point in decrementing timer by 0.1s now,
+    //hence remove interval from tick
     if (this.props.isTestCompleted) {
       clearInterval(this.timer);
     }

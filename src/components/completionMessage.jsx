@@ -1,6 +1,7 @@
 import React from 'react';
 
 const CompletionMessage = (props) => {
+  // Pass username,score, time-remaining attempts as prop and display it in completion message
   return (
     <div className="col-xs-12">
       <div className="col-xs-3">
