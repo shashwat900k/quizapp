@@ -8,12 +8,12 @@ const CompletionMessage = (props) => {
         &nbsp;
       </div>
       <div className='quiz-complete-message  col-xs-9'>
-        <h1>Congratulations {props.userName}, you finished the quiz</h1>
-        <h2>Your Score: {props.score} </h2>
+        <h1>Congratulations {props.playerName}, you finished the quiz</h1>
+        <h2>Your Score: {props.userScore} </h2>
         <h2>Number of questions answered: {props.attempted}</h2>
         <h2>Number of questions unanswered:
           {props.questionsLength - props.attempted}</h2>
-        <h2>Time remaining on the clock: {props.timeRemaining.toFixed(1)}</h2>
+        <h2>Time remaining on the clock: {props.timeRemainingAtCompletion.toFixed(1)}</h2>
       </div>
     </div>
   );

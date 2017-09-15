@@ -41,7 +41,7 @@ class PlayernInfoForm extends React.Component {
             <div>
               {/* disables bttn when nothing entered in input field */}
               <button className='btn btn-default submit-name-button' type='submit'
-                      onClick={this.handleSubmit} disabled={this.state.name === '' ? 1 : 0}>
+                      onClick={this.handleSubmit} disabled={!this.state.name}>
                 Submit Name
               </button>
             </div>

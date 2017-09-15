@@ -158,15 +158,10 @@ class App extends React.Component {
 
     // when both user-info submitted and game also finished
     else {
+      let messageObject = {...this.state,questionsLength};
       return (
         // CompletionMessage: Shows user[score,name] question[attempted,un-attempted] on game completion
-        <CompletionMessage
-          score = {this.state.userScore}
-          timeRemaining = {this.state.timeRemainingAtCompletion}
-          userName = {this.state.playerName}
-          attempted = {this.state.attempted}
-          questionsLength = {questionsLength}
-        />
+        <CompletionMessage {...messageObject} />
       );
     }
   }
