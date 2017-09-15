@@ -6,8 +6,8 @@ class Question extends React.Component {
     super(props);
     this.state = {
       selectedOption: 0, //stores option selected at any point
-      doubleScore: "#cc3300", // color of the button on clicking double-it
-      tripleScore: "#cc3300", // color of the button on clicking triple-it
+      doubleScore: '#cc3300', // color of the button on clicking double-it
+      tripleScore: '#cc3300', // color of the button on clicking triple-it
       doubleIt: 0, // if double-it button clicked or not
       tripleIt: 0 // if triple-it button clicked or not
     }
@@ -17,7 +17,7 @@ class Question extends React.Component {
   increaseStake = (buttonClicked) => {
     let double = 0, triple = 0;
 
-    if (buttonClicked === "double-it") {
+    if (buttonClicked === 'double-it') {
       double = 1;
     } else {
       triple = 1;
@@ -63,8 +63,8 @@ class Question extends React.Component {
     event.preventDefault();
     this.setState({
       selectedOption: 0,
-      tripleScore: "#cc3300",
-      doubleScore: "#cc3300"
+      tripleScore: '#cc3300',
+      doubleScore: '#cc3300'
     })
     //calculate score to be awarded for given question on submit
     this.calculateScoreForCurrentQuestion();
@@ -75,16 +75,16 @@ class Question extends React.Component {
     //on clicking doubleIt or triple set the color of clicked bttn to green and
     // un-clicked to red by changing there states
     event.preventDefault();
-    if (event.currentTarget.id === "double-it") {
+    if (event.currentTarget.id === 'double-it') {
       this.setState({
-        doubleScore: "#339966",
-        tripleScore: "#cc3300"
+        doubleScore: '#339966',
+        tripleScore: '#cc3300'
       });
     }
     else {
       this.setState({
-        tripleScore: "#339966",
-        doubleScore: "#cc3300"
+        tripleScore: '#339966',
+        doubleScore: '#cc3300'
       });
     }
     //and also set state to indicate which one(double or triple) is clicked
@@ -103,11 +103,11 @@ class Question extends React.Component {
         const checked = optionSelected === valueAtIndex;
         return (
           <div key={i}>
-            <span className="radio-buttons">
-              <input type="radio" value={valueAtIndex} checked={checked}
+            <span className='radio-buttons'>
+              <input type='radio' value={valueAtIndex} checked={checked}
                      onChange={this.handleChange}/>
             </span>
-            <span className="options">{valueAtIndex}</span>
+            <span className='options'>{valueAtIndex}</span>
             <p></p>
           </div>
         )
@@ -115,30 +115,30 @@ class Question extends React.Component {
 
     return (
       <form>
-        <h4 className="main-question">{this.props.currentQuestion[0]}</h4>
+        <h4 className='main-question'>{this.props.currentQuestion[0]}</h4>
         <div>
           {options}
         </div>
-        <div className="submit-container">
+        <div className='submit-container'>
           {/*If no option selected do not enable submit button */}
-          <button className="btn btn-default submit-button" type="submit"
+          <button className='btn btn-default submit-button' type='submit'
                   onClick={this.handleSubmit} disabled={!(optionSelected)}>
             Save Answer
           </button>
         </div>
-        <div className="col-xs-12">
-          <div className="col-xs-6">
+        <div className='col-xs-12'>
+          <div className='col-xs-6'>
             {/* Sets color to green if double or triple it clicked by calling handleDoubleTriple
              and changing the states accordingly and setting bg-color according to states*/}
-            <button className="btn btn-default col-xs-6 increase-stake" id="double-it"
-                    style={{backgroundColor: this.state.doubleScore}} type="submit"
+            <button className='btn btn-default col-xs-6 increase-stake' id='double-it'
+                    style={{backgroundColor: this.state.doubleScore}} type='submit'
                     onClick={this.handleDoubleTriple}>
               <p>Double IT!</p>Get 20 or Lose 10
             </button>
           </div>
-          <div className="col-xs-6">
-            <button className="btn btn-default col-xs-6 increase-stake" id="triple-it"
-                    type="submit" style={{backgroundColor: this.state.tripleScore}}
+          <div className='col-xs-6'>
+            <button className='btn btn-default col-xs-6 increase-stake' id='triple-it'
+                    type='submit' style={{backgroundColor: this.state.tripleScore}}
                     onClick={this.handleDoubleTriple}>
               <p>Triple IT!</p>Get 30 or Lose 20
             </button>

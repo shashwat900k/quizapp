@@ -1,19 +1,19 @@
-import "./../node_modules/bootstrap/dist/css/bootstrap.css";
-import "babel-core/register";
-import "babel-polyfill";
-import "./assets/css/main.scss";
-import React from "react";
-import ReactDOM from "react-dom";
-import jsonQuestions from "./components/questionBank.js";
-import CompletionMessage from "./components/completionMessage.jsx";
-import Question from "./components/question.jsx";
-import Timer from "./components/timer.jsx";
-import PlayernInfoForm from "./components/playerInfo.jsx";
-import ScoreCard from "./components/scoreCard.jsx";
-import ShowLeaderBoard from "./components/showLeaderBoard.jsx";
-import {selectAndRemoveQuestion} from "./components/globalUtilFunctions.js";
-import {getTopTenScores} from "./utils/apis";
-import {postUserNameAndScore} from "./utils/apis";
+import './../node_modules/bootstrap/dist/css/bootstrap.css';
+import 'babel-core/register';
+import 'babel-polyfill';
+import './assets/css/main.scss';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import jsonQuestions from './components/questionBank.js';
+import CompletionMessage from './components/completionMessage.jsx';
+import Question from './components/question.jsx';
+import Timer from './components/timer.jsx';
+import PlayernInfoForm from './components/playerInfo.jsx';
+import ScoreCard from './components/scoreCard.jsx';
+import ShowLeaderBoard from './components/showLeaderBoard.jsx';
+import {selectAndRemoveQuestion} from './components/globalUtilFunctions.js';
+import {getTopTenScores} from './utils/apis';
+import {postUserNameAndScore} from './utils/apis';
 
 let questionsLength = 0, leaderBoardScores = [], posted = 0,gameDuration=120;
 
@@ -130,22 +130,22 @@ class App extends React.Component {
     // On getting the player name, begin the game
     else if (!(this.state.isTestCompleted)) {
       return (
-        <div className="main">
-          <div className="col-xs-12 main-container">
-            <div className="col-xs-3 time-score-container">
-              <div className="sub-time-container">
+        <div className='main'>
+          <div className='col-xs-12 main-container'>
+            <div className='col-xs-3 time-score-container'>
+              <div className='sub-time-container'>
                 {/* Timer: only shows the time remaining on the clock*/}
                 <Timer start={gameDuration*1000}
                        actionOnTimeOver={this.actionOnTimeOver}
                        isTestCompleted={this.state.isTestCompleted}/>
               </div>
               {/*ScoreCard: shows user score at given point in the game */}
-              <div className="sub-score-container">
+              <div className='sub-score-container'>
                 <ScoreCard userScore={this.state.userScore}/>
               </div>
             </div>
             {/*Question: displays question along with options and DoubleIt, TripleIt and Submit bttns */}
-            <div className="question-container col-xs-6">
+            <div className='question-container col-xs-6'>
               <Question currentQuestion={this.state.currentQuestion}
                         checkAnswer={this.checkAnswerAndCalculateScore}/>
             </div>
@@ -172,4 +172,4 @@ class App extends React.Component {
   }
 }
 
-ReactDOM.render(<App/>, document.getElementById("app"));
+ReactDOM.render(<App/>, document.getElementById('app'));

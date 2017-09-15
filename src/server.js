@@ -1,10 +1,10 @@
-const bodyParser = require("body-parser");
-const path = require("path");
+const bodyParser = require('body-parser');
+const path = require('path');
 const express= require('express');
-const DIST_DIR = path.join(__dirname, "../public"),
+const DIST_DIR = path.join(__dirname, '../public'),
   PORT = 3000,
   app = express();
-const mysql = require("mysql");
+const mysql = require('mysql');
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
@@ -20,7 +20,7 @@ app.use(bodyParser.json());
 app.use(express.static(DIST_DIR));
 
 function getTopTen(callback){
-  connection.query("SELECT * FROM tbl_userscore ORDER BY userScore DESC,id ASC LIMIT 10",function(err,rows){
+  connection.query('SELECT * FROM tbl_userscore ORDER BY userScore DESC,id ASC LIMIT 10',function(err,rows){
     if(!err){
       return callback(null,rows);
     }
@@ -49,7 +49,7 @@ app.post('/postNameAndScore', function(req, res) {
   let postData = req.body;
   let userName = postData.name;
   let userScore = postData.score;
-  connection.query("INSERT INTO tbl_userscore(userName,userScore) VALUES (?,?)",[userName,userScore],function(err, rows) {
+  connection.query('INSERT INTO tbl_userscore(userName,userScore) VALUES (?,?)',[userName,userScore],function(err, rows) {
     if (err)
       console.log(err);
     else

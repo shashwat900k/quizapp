@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 class Timer extends React.Component {
   constructor(props) {
@@ -22,7 +22,7 @@ class Timer extends React.Component {
         timeRemaining: this.props.start - prevState.counter,
         counter: prevState.counter + 100
       }));
-      // when timer value <0, finish the test by invoking actionOnTieOver
+      // when timer value <0, finish the test by invoking actionOnTimeOver
       // in main.jsx
       if (this.state.timeRemaining <= 0) {
         this.setState({
@@ -45,9 +45,9 @@ class Timer extends React.Component {
     const elapsed = Math.round(this.state.timeRemaining / 100);
     const seconds = (elapsed / 10).toFixed(1);
     return (
-      <div className="timer">
-        <p className="time-remaining"><b>
-          {seconds} <span className="seconds">S</span></b></p>
+      <div className='timer'>
+        <p className='time-remaining'><b>
+          {seconds} <span className='seconds'>S</span></b></p>
       </div>
     );
   }
